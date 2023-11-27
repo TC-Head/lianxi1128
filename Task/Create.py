@@ -30,13 +30,6 @@ RESET_COLOR = '\033[0m'
 
 
 
-def print_all_files_in_directory(directory):
-    print("任务提示 : 目标文件夹中的所有文件：")
-    for foldername, subfolders, filenames in os.walk(directory):
-        for filename in filenames:
-            file_path = os.path.join(foldername, filename)
-            print(file_path)
-
 def copy_file(src, dst, total_files, current_file):
     # 输出源文件路径
     print(FONT_RED + BG_WHITE +"任务状态[{} / {}] : [ [ {} ]  ->  [ {} ] ] ".format(current_file, total_files, src,dst) + RESET_COLOR)
@@ -80,13 +73,10 @@ def Cretae_Folder_To_Specified_Directory(TempLatePath:str,Create_To_Directory:st
     print("任务提示 : 即将开始复制文件夹模板到指定目录!")
     print("任务提示 : 创建的文件夹路径为[ {} ]".format(Create_AbsPath))
 
-    # 3.输出目标文件夹中的所有文件
-    # print_all_files_in_directory(Create_AbsPath)
-
-    # 4.创建目标文件夹
+    # 3.创建目标文件夹
     os.makedirs(Create_AbsPath, exist_ok=True)
 
-    # 5.遍历目标文件夹并逐个复制文件
+    # 4.遍历目标文件夹并逐个复制文件
     total_files = 0
     for foldername, subfolders, filenames in os.walk(TempLatePath):
         total_files += len(filenames)
@@ -104,8 +94,7 @@ def Cretae_Folder_To_Specified_Directory(TempLatePath:str,Create_To_Directory:st
 
     messagebox.showinfo(title="任务提示 : 完成状态!", message="当前任务已完成!")
     
-
-
+    
 def Create(Start_Path:str,argv:list,ConfigFile_Path:str):
     print("提示 : 程序启动路径 \t{}".format(Start_Path))
     print("提示 : 配置文件路径 \t{}".format(ConfigFile_Path))
