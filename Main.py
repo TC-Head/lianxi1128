@@ -1,5 +1,5 @@
 from Task.Create import *
-import sys,os
+import sys,os,subprocess
 
 #全局变量区
 GLOBAL_INT_VAR = 0
@@ -37,13 +37,49 @@ RESET_COLOR = '\033[0m'
 
 
 # 函数区
+def ShowConfig():
+    # 显示配置文件
+    
+    # 1.获取配置文件的路径地址
+    ConfigFilePath =os.path.join(os.path.dirname(__file__),"config.ini")
+
+    # 2.遍历输出配置文件
+    for TextLine in open(file=ConfigFilePath,mode='r',encoding='utf8').readlines():
+        print(FONT_RED + BG_YELLOW + TextLine + RESET_COLOR)
+    
+
+def OpenConfig():
+    # 打开配置文件
+    
+    # 1.获取配置文件的路径地址
+    ConfigFilePath =os.path.join(os.path.dirname(__file__),"config.ini")
+
+    # 2.打开配置文件
+    try:
+        subprocess.Popen(['notepad.exe', ConfigFilePath], shell=True)
+    except Exception as e:
+        print("错误提示 : 无法打开配置文件.")
+        print("详细信息 : {}".format(e))
+
+def ShowHelp():
+    # 显示帮助信息,帮助信息在统计目录下的Help.txt文件中
+    
+    # 1.获取帮助文件的路径地址
+    HelpFilePath =os.path.join(os.path.dirname(__file__),"Help.txt")
+
+    # 2.遍历输出
+    for TextLine in open(file=HelpFilePath,mode='r',encoding='utf8').readlines():
+        print(FONT_RED + BG_YELLOW + TextLine + RESET_COLOR)
+
+
+        
+
 def Set_Console_Color_Green():
     print(FONT_GREEN)
 
 def Reset_Console_Color_Default():
     print(RESET_COLOR)
 
-#函数区
 def Function():
     # 1.获取启动程序的路径地址
     Start_Path = os.path.abspath('./')
@@ -72,5 +108,17 @@ def Function():
 #入口函数
 if __name__ == "__main__" :
     Set_Console_Color_Green()
+
+    if sys.argv[1] in ["ShowConfig","SHOWCONFIG","showconfig"]:
+        ShowConfig()
+        exit()
+    elif sys.argv[1] in ["OpenConfig","OPENCONFIG","openconfig"]:
+        OpenConfig()
+        exit()
+    elif sys.argv[1] in ["Help","HELP","help","h","-h","--help","--h"]:
+        ShowHelp()
+        exit()
+
+
     Function()
     Reset_Console_Color_Default()
