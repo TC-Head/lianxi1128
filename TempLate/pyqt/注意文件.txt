@@ -1,0 +1,1 @@
+有时候会生成的Ui Python文件是PySide2的.需要改成PySide6

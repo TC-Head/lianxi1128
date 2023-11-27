@@ -30,12 +30,6 @@ RESET_COLOR = '\033[0m'
 
 
 
-def copy_file(src, dst, total_files, current_file):
-    # 输出源文件路径
-    print(FONT_RED + BG_WHITE +"任务状态[{} / {}] : [ [ {} ]  ->  [ {} ] ] ".format(current_file, total_files, src,dst) + RESET_COLOR)
-
-    # 执行复制
-    shutil.copy2(src=src, dst=dst)
 
 
 def Create_File_To_Specified_Directory(TempLatePath:str,Create_To_Directory:str,Create_Name:str):
@@ -73,26 +67,12 @@ def Cretae_Folder_To_Specified_Directory(TempLatePath:str,Create_To_Directory:st
     print("任务提示 : 即将开始复制文件夹模板到指定目录!")
     print("任务提示 : 创建的文件夹路径为[ {} ]".format(Create_AbsPath))
 
-    # 3.创建目标文件夹
-    os.makedirs(Create_AbsPath, exist_ok=True)
-
-    # 4.遍历目标文件夹并逐个复制文件
-    total_files = 0
-    for foldername, subfolders, filenames in os.walk(TempLatePath):
-        total_files += len(filenames)
-
-    current_file = 0
-    for foldername, subfolders, filenames in os.walk(TempLatePath):
-        for filename in filenames:
-            src = os.path.join(foldername, filename)
-            dst = os.path.join(Create_AbsPath, filename)
-            
-            # 调用复制函数
-            copy_file(src, dst, total_files, current_file + 1)
-            
-            current_file += 1
-
-    messagebox.showinfo(title="任务提示 : 完成状态!", message="当前任务已完成!")
+    # 3.使用 shutil.copytree 递归复制整个目录
+    try:
+        shutil.copytree(src=TempLatePath, dst=Create_AbsPath)
+        messagebox.showinfo(title="任务提示 : 完成状态!", message="当前任务已完成!")
+    except Exception as e:
+        messagebox.showinfo(title="任务提示 : 错误状态!", message=f"复制文件夹发生错误: {str(e)}")
     
     
 def Create(Start_Path:str,argv:list,ConfigFile_Path:str):
